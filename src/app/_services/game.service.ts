@@ -11,10 +11,14 @@ export class GameService {
   public GameId: BehaviorSubject<any | null>;
   public isInGame: boolean = false;
   public playerWon: string | undefined;
+  public nickname: string;
 
   constructor(private wsService: WebSocketService, private router: Router) {
     this.GameEvents = new BehaviorSubject(null);
     this.GameId = new BehaviorSubject(null);
+
+    this.nickname = localStorage.getItem("nickname") || "Player";
+
     wsService.IncomingMessages.subscribe(messageObject => {
       if(messageObject == null) return;
 
@@ -26,6 +30,7 @@ export class GameService {
       switch(EVENT) {
         case "ESTABLISH_NEW_GAME": {
           this.GameId.next(BODY.uuid);
+          this.wsService.SendData("MODIFY_NICKNAME", { nickname: localStorage.getItem("nickname") || "Player" });
           this.isInGame = true;
           this.router.navigate([ "/game" ]);
           break;
@@ -56,5 +61,12 @@ export class GameService {
   UpdateBoard(x: number, y: number) {
     if(!this.isInGame) return;
     this.wsService.SendData("MODIFY_BOX", { "x": x, "y": y})
+  }
+
+  UpdateNickname(nickname: string) {
+    if(!this.isInGame) return;
+    this.nickname = nickname;
+    localStorage.setItem("nickname", nickname);
+    this.wsService.SendData("MODIFY_NICKNAME", { nickname: nickname });
   }
 }

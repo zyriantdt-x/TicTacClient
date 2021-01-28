@@ -19,7 +19,6 @@
                         </div>
                         <input type="text" class="form-control" value="http://tictactoe.ellis.pw/join/{{gameId}}" disabled>
                     </div>
-                    <br>
                     <div *ngIf="gameId">
                         <form [formGroup]="nicknameForm" (submit)="nicknameFormSubmit()">
                             <div class="input-group mb-3">

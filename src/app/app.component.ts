@@ -13,8 +13,6 @@ export class AppComponent {
   gameError: string | undefined;
   gameId!: string | null;
 
-  nickname: string = localStorage.getItem("nickname") || "Player";
-
   form: FormGroup
   chatBoxForm: FormGroup
   nicknameForm: FormGroup
@@ -31,7 +29,7 @@ export class AppComponent {
     })
 
     this.nicknameForm = forms.group({
-      nickname: ['', Validators.required]
+      nickname: [gameService.nickname, Validators.required]
     })
 
     gameService.GameEvents.subscribe(messageObject => {
@@ -62,6 +60,7 @@ export class AppComponent {
   }
 
   nicknameFormSubmit() {
-    console.log(this.nicknameForm.value.nickname);
+    //console.log(this.nicknameForm.value.nickname);
+    this.gameService.UpdateNickname(this.nicknameForm.value.nickname);
   }
 }
