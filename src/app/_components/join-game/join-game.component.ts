@@ -4,6 +4,7 @@ import { GameService } from 'src/app/_services';
 
 @Component({
   selector: 'app-join-game',
+  template: ``
 })
 export class JoinGameComponent implements OnInit {
 
