@@ -49,4 +49,8 @@ export class AppComponent {
   joinGame() {
     this.gameService.JoinGame(this.form.value.gameId);
   }
+
+  chatBoxSubmit() {
+    console.log(this.chatBoxForm.value.input);
+  }
 }
