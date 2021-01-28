@@ -13,8 +13,11 @@ export class AppComponent {
   gameError: string | undefined;
   gameId!: string | null;
 
+  nickname: string = localStorage.getItem("nickname") || "Player";
+
   form: FormGroup
   chatBoxForm: FormGroup
+  nicknameForm: FormGroup
 
   constructor(public gameService: GameService, private forms: FormBuilder) {
     gameService.GameId.subscribe(result => this.gameId = result);
@@ -25,6 +28,10 @@ export class AppComponent {
 
     this.chatBoxForm = forms.group({
       input: ['', Validators.required]
+    })
+
+    this.nicknameForm = forms.group({
+      nickname: ['', Validators.required]
     })
 
     gameService.GameEvents.subscribe(messageObject => {
@@ -52,5 +59,9 @@ export class AppComponent {
 
   chatBoxSubmit() {
     console.log(this.chatBoxForm.value.input);
+  }
+
+  nicknameFormSubmit() {
+    
   }
 }
