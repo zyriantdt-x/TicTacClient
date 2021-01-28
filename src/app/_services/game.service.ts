@@ -41,7 +41,7 @@ export class GameService {
         }
         case "PLAYER_WON": {
           this.isInGame = false;
-          this.playerWon = BODY.player;
+          //this.playerWon = BODY.player;
           this.GameId.next(null);
           //router.navigate(['/']);
           break;

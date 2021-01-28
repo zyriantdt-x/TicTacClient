@@ -49,13 +49,17 @@ export class AppComponent {
         case "ERROR": {
           //this.gameError = BODY.message
           if(this.gameId)
-            this.chatbox.nativeElement.innerHTML = this.chatbox.nativeElement.innerHTML + "\n[ERROR] - " + BODY.message;
+            this.chatbox.nativeElement.innerHTML = this.chatbox.nativeElement.innerHTML + "\n[SYSTEM] - Error: " + BODY.message;
           else
             this.gameError = BODY.message
           break;
         }
         case "RECEIVE_MESSAGE": {
           this.chatbox.nativeElement.innerHTML = this.chatbox.nativeElement.innerHTML + "\n(" + BODY.time + ") [" + BODY.nickname + "] - " + BODY.message;
+          break;
+        }
+        case "PLAYER_WON": {
+          this.chatbox.nativeElement.innerHTML = this.chatbox.nativeElement.innerHTML + "\n[SYSTEM] - " + BODY.player + " has won the game!";
           break;
         }
       }
