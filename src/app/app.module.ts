@@ -7,12 +7,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GameComponent } from './_components/game/game.component';
 import { BoxComponent } from './_components/box/box.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { JoinGameComponent } from './_components/join-game/join-game.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GameComponent,
-    BoxComponent
+    BoxComponent,
+    JoinGameComponent
   ],
   imports: [
     BrowserModule,
