@@ -69,4 +69,9 @@ export class GameService {
     localStorage.setItem("nickname", nickname);
     this.wsService.SendData("MODIFY_NICKNAME", { nickname: nickname });
   }
+
+  SendMessage(message: string) {
+    if(!this.isInGame) return;
+    this.wsService.SendData("SEND_MESSAGE", { message: message });
+  }
 }

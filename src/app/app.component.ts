@@ -17,6 +17,9 @@ export class AppComponent {
   chatBoxForm: FormGroup
   nicknameForm: FormGroup
 
+  @ViewChild("chatBox")
+  chatbox!: ElementRef
+
   constructor(public gameService: GameService, private forms: FormBuilder) {
     gameService.GameId.subscribe(result => this.gameId = result);
     
@@ -39,8 +42,20 @@ export class AppComponent {
       const BODY = messageObject.Body;
 
       switch(EVENT) {
+        case "ESTABLISH_NEW_GAME": {
+          this.gameError = undefined;
+          break;
+        }
         case "ERROR": {
-          this.gameError = BODY.message
+          //this.gameError = BODY.message
+          if(this.gameId)
+            this.chatbox.nativeElement.innerHTML = this.chatbox.nativeElement.innerHTML + "\n[ERROR] - " + BODY.message;
+          else
+            this.gameError = BODY.message
+          break;
+        }
+        case "RECEIVE_MESSAGE": {
+          this.chatbox.nativeElement.innerHTML = this.chatbox.nativeElement.innerHTML + "\n(" + BODY.time + ") [" + BODY.nickname + "] - " + BODY.message;
           break;
         }
       }
@@ -56,7 +71,8 @@ export class AppComponent {
   }
 
   chatBoxSubmit() {
-    console.log(this.chatBoxForm.value.input);
+    this.gameService.SendMessage(this.chatBoxForm.value.input);
+    this.chatBoxForm.reset();
   }
 
   nicknameFormSubmit() {
