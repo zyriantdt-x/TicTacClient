@@ -20,6 +20,18 @@
                         </div>
                         <input type="text" class="form-control" value="http://tictactoe.ellis.pw/join/{{gameId}}" disabled>
                     </div>
+                    <br>
+                    <div *ngIf="gameId">
+                        <textarea class="form-control" style="width:100%;height:250px;"disabled #chatBox>>> GAME CHAT BOX <<</textarea><br>
+                        <form [formGroup]="chatBoxForm" (submit)="chatBoxSubmit()">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Message" formControlName="input">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-success" [disabled]="!chatBoxForm.valid || !gameService.isInGame">Send message</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </form>
                 <div class="alert alert-danger" role="alert" *ngIf="gameError">
                     <strong>Oh no!</strong>&nbsp; {{ gameError }}
