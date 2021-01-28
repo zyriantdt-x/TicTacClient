@@ -17,26 +17,58 @@ export class BoxComponent implements OnInit, OnDestroy {
   startGameButtons!: any;
 
   buttonTextures!: any;
-  buttons: any = [];
+  buttons: any;
 
   @Input()
   public devicePixelRatio = window.devicePixelRatio || 1;
 
   constructor(private gameService: GameService, private elementRef: ElementRef, private ngZone: NgZone) { 
-    this.ngZone.runOutsideAngular(() => {
-      this.app = new PIXI.Application({ width: 640, height:690, backgroundColor: 0xFFFFFF });
+    this.gameService.GameEvents.subscribe(messageObject => {
+      if(messageObject == null) return;
 
-      this.container = new PIXI.Container();
-      this.app.stage.addChild(this.container);
+      const EVENT = messageObject.Event;
+      const BODY = messageObject.Body;
 
-      this.startGameButtons = [];
+      switch(EVENT) {
+        case "UPDATE_BOARD": {
+          if(BODY.board_data) break;
+          let x = BODY.x;
+          let y = BODY.y;
+          let type = BODY.new_type;
+          let texture = BODY.new_type == 1 ? "O": "X";
 
-      BoxComponent.that = this;
+          let btn: PIXI.Sprite[] = this.buttons.filter((j: PIXI.Sprite) => (j as any).gameX == x && (j as any).gameY == y);
+          
+          btn[0].texture = this.buttonTextures[texture]
+          break;
+        }
 
-      this.app.loader
-      .add('spritesheet', 'assets/sprites.json')
-      .load(this.onAssetsLoaded.bind(this));
+        case "ESTABLISH_NEW_GAME": {
+          this.ngZone.runOutsideAngular(() => {
+            this.resetApp();
+          })
+        }
+      }
     })
+  }
+
+  resetApp(): void {
+    if(this.app) { this.app.destroy(); }
+    if(this.container) this.container.destroy();
+
+    this.app = new PIXI.Application({ width: 640, height:690, backgroundColor: 0xFFFFFF });
+
+    this.container = new PIXI.Container();
+    this.app.stage.addChild(this.container);
+
+    this.startGameButtons = [];
+    this.buttons = [];
+
+    BoxComponent.that = this;
+
+    this.app.loader
+    .add('spritesheet', 'assets/sprites.json')
+    .load(this.onAssetsLoaded.bind(this));
   }
 
   onAssetsLoaded(): void {
@@ -82,29 +114,12 @@ export class BoxComponent implements OnInit, OnDestroy {
       this.container.addChild(button);
       this.buttons.push(button);
     }
-
-    this.gameService.GameEvents.subscribe(messageObject => {
-      if(messageObject == null) return;
-
-      const EVENT = messageObject.Event;
-      const BODY = messageObject.Body;
-
-      switch(EVENT) {
-        case "UPDATE_BOARD": {
-          if(BODY.board_data) break;
-          let x = BODY.x;
-          let y = BODY.y;
-          let type = BODY.new_type;
-          let texture = BODY.new_type == 1 ? "O": "X";
-
-          let btn: PIXI.Sprite[] = this.buttons.filter((j: PIXI.Sprite) => (j as any).gameX == x && (j as any).gameY == y);
-          
-          btn[0].texture = this.buttonTextures[texture]
-          
-          break;
-        }
-      }
-    })
+    
+    const childElements = this.elementRef.nativeElement.children;
+    for (let child of childElements) {
+      this.elementRef.nativeElement.removeChild(child);
+    }
+    this.elementRef.nativeElement.appendChild(this.app.view);
   }
 
   onMoveClicked(event: any) {
@@ -115,7 +130,7 @@ export class BoxComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.elementRef.nativeElement.appendChild(this.app.view);
+    
   }
 
   ngOnDestroy(): void {

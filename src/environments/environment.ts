@@ -3,9 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: true,
+  production: false,
 
-  WS_URL: "ws://178.239.166.21:1232"
+  WS_URL: "ws://localhost:1232"
 };
 
 /*

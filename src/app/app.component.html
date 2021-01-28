@@ -4,8 +4,6 @@
         <div class="col-sm-6">
             <div>
                 <form [formGroup]="form" (submit)="joinGame()">
-                    <!--<input type="text" formControlName="gameId" class="form-control" placeholder="Game ID">
-                    <button type="submit" class="btn btn-success" [disabled]="!form.valid || gameService.isInGame">Join Game</button>-->
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <button type="button" class="btn btn-success" (click)="newGame()" [disabled]="gameService.isInGame">New Game</button>
