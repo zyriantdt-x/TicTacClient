@@ -62,6 +62,6 @@ export class AppComponent {
   }
 
   nicknameFormSubmit() {
-    
+    console.log(this.nicknameForm.value.nickname);
   }
 }

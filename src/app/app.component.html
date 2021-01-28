@@ -21,15 +21,15 @@
                     </div>
                     <br>
                     <div *ngIf="gameId">
-                        <form [formGroup]="nicknameForm" (submit)="nicknameSubmit()">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Nickname</span>
-                            </div>
+                        <form [formGroup]="nicknameForm" (submit)="nicknameFormSubmit()">
                             <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Nickname</span>
+                                </div>
                                 <input type="text" class="form-control" placeholder="Nickname" formControlName="nickname">
-                            </div>
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-success" [disabled]="!nicknameForm.valid || !gameService.isInGame">Update nickname</button>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-success" [disabled]="!nicknameForm.valid || !gameService.isInGame">Update nickname</button>
+                                </div>
                             </div>
                         </form>
                     </div>
