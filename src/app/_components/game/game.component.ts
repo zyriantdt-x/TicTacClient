@@ -12,7 +12,7 @@ export class GameComponent implements OnInit {
 
   constructor(public gameService: GameService, private router: Router) {
     gameService.GameId.subscribe(result => this.gameId = result);
-    if(!gameService.isInGame) router.navigate([ '/' ]);
+    if(!gameService.isInGame) window.location.href = "/";
   }
 
   ngOnInit(): void {

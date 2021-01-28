@@ -13,12 +13,35 @@
                           <button type="submit" class="btn btn-success" [disabled]="!form.valid || gameService.isInGame">Join Game</button>
                         </div>
                     </div>
-                    <strong *ngIf="gameId">Your Game ID: </strong>{{ gameId }}
                     <div class="input-group mb-3" *ngIf="gameId">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Invite URL</span>
                         </div>
                         <input type="text" class="form-control" value="http://tictactoe.ellis.pw/join/{{gameId}}" disabled>
+                    </div>
+                    <div *ngIf="gameId">
+                        <form [formGroup]="nicknameForm" (submit)="nicknameFormSubmit()">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Nickname</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Nickname" formControlName="nickname">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-success" [disabled]="!nicknameForm.valid || !gameService.isInGame">Update nickname</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div *ngIf="gameId">
+                        <textarea class="form-control" style="width:100%;height:250px;"disabled #chatBox>>> GAME CHAT BOX <<</textarea><br>
+                        <form [formGroup]="chatBoxForm" (submit)="chatBoxSubmit()">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Message" formControlName="input">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-success" [disabled]="!chatBoxForm.valid || !gameService.isInGame">Send message</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </form>
                 <div class="alert alert-danger" role="alert" *ngIf="gameError">
