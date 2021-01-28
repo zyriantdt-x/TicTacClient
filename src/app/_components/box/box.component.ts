@@ -19,6 +19,8 @@ export class BoxComponent implements OnInit, OnDestroy {
   buttonTextures!: any;
   buttons: any;
 
+  assetsLoaded: boolean = false;
+
   @Input()
   public devicePixelRatio = window.devicePixelRatio || 1;
 
@@ -66,9 +68,13 @@ export class BoxComponent implements OnInit, OnDestroy {
 
     BoxComponent.that = this;
 
-    this.app.loader
-    .add('spritesheet', 'assets/sprites.json')
-    .load(this.onAssetsLoaded.bind(this));
+    if(!this.assetsLoaded) {
+      this.app.loader
+      .add('spritesheet', 'assets/sprites.json')
+      .load(this.onAssetsLoaded.bind(this));
+    } else {
+      this.onAssetsLoaded();
+    }
   }
 
   onAssetsLoaded(): void {
