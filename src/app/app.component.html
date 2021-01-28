@@ -16,6 +16,12 @@
                         </div>
                     </div>
                     <strong *ngIf="gameId">Your Game ID: </strong>{{ gameId }}
+                    <div class="input-group mb-3" *ngIf="gameId">
+                        <div class="input-group-prepend">
+                            Invite URL
+                        </div>
+                        <input type="text" class="form-control" value="http://tictactoe.ellis.pw/join/{{gameId}}" disabled>
+                    </div>
                 </form>
                 <div class="alert alert-danger" role="alert" *ngIf="gameError">
                     <strong>Oh no!</strong>&nbsp; {{ gameError }}
