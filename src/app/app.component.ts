@@ -79,7 +79,6 @@ export class AppComponent {
   }
 
   nicknameFormSubmit() {
-    //console.log(this.nicknameForm.value.nickname);
     this.gameService.UpdateNickname(this.nicknameForm.value.nickname);
   }
 }
