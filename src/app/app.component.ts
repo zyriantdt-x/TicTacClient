@@ -47,9 +47,8 @@ export class AppComponent {
           break;
         }
         case "ERROR": {
-          //this.gameError = BODY.message
           if(this.gameId)
-            this.chatbox.nativeElement.innerHTML = this.chatbox.nativeElement.innerHTML + "\n[SYSTEM] - Error: " + BODY.message;
+            this.chatbox.nativeElement.innerHTML = this.chatbox.nativeElement.innerHTML + "\n(" + BODY.time + ")[SYSTEM] - Error: " + BODY.message;
           else
             this.gameError = BODY.message
           break;
